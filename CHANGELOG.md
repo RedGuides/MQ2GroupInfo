@@ -1,0 +1,21 @@
+Feb 11, 2021
+- Split MQ2TargetInfo into individual window components
+  - MQ2GroupInfo deals with the Group Window
+    - Use /groupinfo to see help
+    - Use MQ2GroupWindow.ini to adjust UI specific settings
+    - Fixed issue with buttons not working in Next
+    - Added the ability to disable the "check" for EQBC and DanNet prior to running those commands (this allows you to have any custom commands you want without error on the sending side).
+    - Added command line arguments perchar and disablenetcheck toggle options. (PerChar still not recommended due to the large number of options)
+    - Updated help to show that you can use /groupinfo [cometome|followme|mimicme] commands to invoke the same thing as the buttons (whether you enable the buttons or not)
+    - Updated the commands for /groupinfo followme and mimicme to be toggles or explicitly on/off for easy use in macros
+    - Huge update for options, now you can use MimicMe and FollowMe with your entire raid if you'd like (some configuration of options required)
+    - Removed the requirement to be in a group to see the Mimic Me, Follow Me, and Come to Me buttons
+    - Fixed issues with Come To Me and Follow Me commands possibly being received out of order (especially DanNet)
+    - Added the following ini options replacing the hardcoded commands.  They default to EQBC but the comments in the ini have the DanNet equivalent.
+      - NavStopCommand - The command to issue for stopping your characters from Navigating
+      - FollowStopCommand - The command to issue when the follow button is turned off (inverse of the FollowMeCommand)
+      - MimicMeText - The text shown on the Mimic Me button
+      - MimicMeSayCommand - The command to issue when MimicMe needs your followers to say something
+      - MimicMeHailCommand - The command to issue when MimicMe needs your followers to Hail something
+      - MimicMeToolTip - The tooltip that's displayed when you hover over the MimicMe button
+      - TargetCommand - The command to issue when MimicMe needs your followers to target something
