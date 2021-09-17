@@ -72,7 +72,7 @@ std::string TargetCommand = "/bcg //target id";
 
 // TODO: This should probably be a map of UI settings
 /* Also defaulted in HandleINI() for INI reads and in the .ini resource */
-bool gbDynamicUI = false; // see note above
+bool gbDynamicUI = true; // see note above
 bool gbUseGroupLayoutBox = false; // see note above
 int gGroupDistanceFontSize = 2; // see note above
 int gGroupDistanceOffset = 2; // see note above
@@ -477,7 +477,7 @@ void HandleINI(eINIOptions Operation)
 		TargetCommand = GetPrivateProfileString(szSettingINISection, "TargetCommand", TargetCommand, INIFileName);
 
 		/* Also defaulted on the global and in the .ini resource */
-		gbDynamicUI = GetPrivateProfileBool(strUISection, "DynamicUI", false, INIFileName); // see note above
+		gbDynamicUI = GetPrivateProfileBool(strUISection, "DynamicUI", true, INIFileName); // see note above
 		gbUseGroupLayoutBox = GetPrivateProfileBool(strUISection, "UseGroupLayoutBox", false, INIFileName); // see note above
 		BaseLabelName = GetPrivateProfileString(strUISection, "LabelBaseGW", "Player_ManaLabel", INIFileName); // see note above
 		gGroupDistanceFontSize = GetPrivateProfileInt(strUISection, "GroupDistanceFontSize", 2, INIFileName); // see note above
