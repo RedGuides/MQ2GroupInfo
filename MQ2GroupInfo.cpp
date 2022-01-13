@@ -57,18 +57,18 @@ int separatorid2 = 0;
 // All of the below are also defaulted in the ini
 std::string DistanceLabelToolTip = "Member Distance";
 std::string ComeToMeLabel = "Come To Me";
-std::string ComeToMeCommand = "/bcg //multiline ; /afollow off;/nav stop;/timed 5 /nav id ${Me.ID}";
+std::string ComeToMeCommand = "/dgge /multiline ; /afollow off;/nav stop;/timed 5 /nav id ${Me.ID}";
 std::string ComeToMeToolTip = ComeToMeCommand;
-std::string NavStopCommand = "/bcg //nav stop";
+std::string NavStopCommand = "/dgge /nav stop";
 std::string FollowMeLabel = "Follow Me";
-std::string FollowMeCommand = "/bcg //multiline ; /afollow off;/nav stop;/timed 5 /afollow spawn ${Me.ID}";
+std::string FollowMeCommand = "/dgge /multiline ; /afollow off;/nav stop;/timed 5 /afollow spawn ${Me.ID}";
 std::string FollowMeToolTip = FollowMeCommand;
-std::string FollowStopCommand = "/bcg //multiline ; /afollow off;/nav stop";
+std::string FollowStopCommand = "/dgge /multiline ; /afollow off;/nav stop";
 std::string MimicMeLabel = "Mimic Me";
 std::string MimicMeToolTip = "Everyone do what I do: targeting, hailing, etc.";
-std::string MimicMeSayCommand = "/bcg //say";
-std::string MimicMeHailCommand = "/bcg //keypress HAIL";
-std::string TargetCommand = "/bcg //target id";
+std::string MimicMeSayCommand = "/dgge /say";
+std::string MimicMeHailCommand = "/dgge /keypress HAIL";
+std::string TargetCommand = "/dgge /target id";
 
 // TODO: This should probably be a map of UI settings
 /* Also defaulted in HandleINI() for INI reads and in the .ini resource */
