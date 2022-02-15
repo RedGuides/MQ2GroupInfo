@@ -105,7 +105,7 @@ int distanceoptionmenuid = 0;
 
 std::map<DWORD, bool> FollowMeMap;
 
-constexpr size_t NUM_GROUPWND_CONTROLS = 5;
+constexpr int NUM_GROUPWND_CONTROLS = 5;
 CGaugeWnd* GW_Gauges[NUM_GROUPWND_CONTROLS] = { nullptr };
 CLabelWnd* GroupDistLabels[NUM_GROUPWND_CONTROLS] = { nullptr };
 
@@ -599,7 +599,7 @@ public:
 		return false;
 	}
 
-	int WndNotification_Trampoline(CXWnd*, uint32_t, void*);
+	DETOUR_TRAMPOLINE_DEF(int, WndNotification_Trampoline, (CXWnd*, uint32_t, void*));
 	int WndNotification_Detour(CXWnd* pWnd, uint32_t Message, void* pData)
 	{
 		if (Message == XWM_OUTPUT_TEXT)
@@ -677,8 +677,9 @@ public:
 		}
 		else if (Message == XWM_MENUSELECT)
 		{
+			int reqId = (int)(uintptr_t)pData;
 			// FIXME:  These should be ini set rather than guessed at.
-			switch ((int)pData)
+			switch (reqId)
 			{
 			case TIMC_MakeMeLeader:
 			{
@@ -889,7 +890,6 @@ public:
 		return WndNotification_Trampoline(pWnd, Message, pData);
 	}
 };
-DETOUR_TRAMPOLINE_EMPTY(int CGroupWnd_Detours::WndNotification_Trampoline(CXWnd*, uint32_t, void*));
 
 void HandleTargetChange()
 {
@@ -946,7 +946,7 @@ void Initialize()
 		}
 
 		// AddOurMenu(pGwnd);
-		for (size_t i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
+		for (int i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
 		{
 			char szName[32] = { 0 };
 			sprintf_s(szName, "Gauge%d", i + 1);
@@ -972,7 +972,7 @@ void Initialize()
 			{
 				tPos.top += gGroupDistanceOffset;
 
-				for (size_t i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
+				for (int i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
 				{
 					const std::string strDistPrefix = GroupDistanceElementPrefix + std::to_string(i + 1);
 					if (CXWnd* wnd = pGroupWnd->GetChildItem(strDistPrefix.c_str()))
@@ -989,7 +989,7 @@ void Initialize()
 			{
 				if (gbDynamicUI)
 				{
-					for (size_t i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
+					for (int i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
 					{
 						char labelName[20] = { 0 };
 						sprintf_s(labelName, "Group_DistLabel%d", i + 1);
@@ -1001,7 +1001,7 @@ void Initialize()
 				}
 				else
 				{
-					for (size_t i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
+					for (int i = 0; i < NUM_GROUPWND_CONTROLS; ++i)
 					{
 						char labelName[20] = { 0 };
 						sprintf_s(labelName, "Group_DistLabel%d", i + 1);
@@ -1286,7 +1286,11 @@ void CMD_GroupInfo(SPAWNINFO* pPlayer, char* szLine)
 PLUGIN_API void InitializePlugin()
 {
 	AddCommand("/groupinfo", CMD_GroupInfo);
-	EzDetour(CGroupWnd__WndNotification, &CGroupWnd_Detours::WndNotification_Detour, &CGroupWnd_Detours::WndNotification_Trampoline);
+
+	EzDetour(CGroupWnd__WndNotification,
+		&CGroupWnd_Detours::WndNotification_Detour,
+		&CGroupWnd_Detours::WndNotification_Trampoline);
+
 	Initialize();
 }
 
@@ -1381,7 +1385,7 @@ PLUGIN_API void OnWriteChatColor(const char* Line, int Color, int Filter)
 	if (gbMimicMe)
 	{
 		//MQ2EasyFind: Going to (Group) -> Annera
-		int linelen = strlen(Line);
+		int linelen = (int)strlen(Line);
 		char* szLine = (char*)LocalAlloc(LPTR, linelen + 32);
 		char* szLineOrg = szLine;
 		strcpy_s(szLine, linelen + 32, Line);
@@ -1418,7 +1422,7 @@ PLUGIN_API bool OnIncomingChat(const char* Line, DWORD Color)
 {
 	if (gbMimicMe)
 	{
-		int linelen = strlen(Line);
+		size_t linelen = strlen(Line);
 		char* szLine = (char*)LocalAlloc(LPTR, linelen + 32);
 		char* szLineOrg = szLine;
 		strcpy_s(szLine, linelen + 32, Line);
