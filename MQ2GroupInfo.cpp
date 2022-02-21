@@ -374,7 +374,8 @@ void StopMovement(bool bChange = true, bool bStopNav = false)
 			DoCommand(pLocalPlayer, NavStopCommand.c_str());
 		}
 
-		FollowMeButton->bChecked = false;
+		if (FollowMeButton != nullptr)
+			FollowMeButton->bChecked = false;
 		gbFollowme = false;
 	}
 }
@@ -387,7 +388,8 @@ void DoFollowMe(bool bOnOff)
 	if (gbFollowme != bOnOff)
 	{
 		gbFollowme = !gbFollowme;
-		FollowMeButton->bChecked = gbFollowme;
+		if (FollowMeButton != nullptr)
+			FollowMeButton->bChecked = gbFollowme;
 		WriteChatf("\ay[MQ2GroupInfo]\ax : Telling group to %s following you.", gbFollowme ? "\agSTART\ax" : "\arSTOP\ax");
 		if (!gbFollowme)
 		{
