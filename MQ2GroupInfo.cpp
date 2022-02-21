@@ -1246,7 +1246,9 @@ void CMD_GroupInfo(SPAWNINFO* pPlayer, char* szLine)
 
 		bool show = GetBoolFromString(szArg2, !gbMimicMe);
 		gbMimicMe = show;
-		MimicMeButton->bChecked = show;
+
+		if (MimicMeButton != nullptr)
+			MimicMeButton->bChecked = show;
 	}
 	else if (!_stricmp(szArg1, "followme"))
 	{
