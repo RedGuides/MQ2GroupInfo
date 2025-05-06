@@ -542,12 +542,12 @@ public:
 	{
 		int index = -1;
 
-		if (pCharData && pCharData->Group)
+		if (pLocalPC && pLocalPC->Group)
 		{
 			// index = group->GroupSelectID;
 			for (int i = 1; i < MAX_GROUP_SIZE; i++)
 			{
-				CGroupMember* pMember = pCharData->Group->GetGroupMember(i);
+				CGroupMember* pMember = pLocalPC->Group->GetGroupMember(i);
 
 				if (pMember && pMember->GetPlayer() && pMember->GetPlayer()->Type == EQP_PC
 					&& (pWnd == reinterpret_cast<CGroupWnd*>(this)->HPGauge[i]
@@ -576,9 +576,9 @@ public:
 
 	SPAWNINFO* GetSpawnFromRightClickIndex()
 	{
-		if (pCharData && pCharData->Group)
+		if (pLocalPC && pLocalPC->Group)
 		{
-			CGroupMember* pMember = pCharData->Group->GetGroupMember(gRightClickIndex);
+			CGroupMember* pMember = pLocalPC->Group->GetGroupMember(gRightClickIndex);
 			if (pMember && pMember->GetPlayer() && pMember->GetPlayer()->Type != EQP_NPC)
 				return (SPAWNINFO*)pMember->GetPlayer();
 		}
@@ -1090,7 +1090,7 @@ void UpdateGroupDist(int index)
 
 	if (CLabelWnd* pWnd = GroupDistLabels[index - 1])
 	{
-		CGroupMember* pMember = pCharData->Group->GetGroupMember(index);
+		CGroupMember* pMember = pLocalPC->Group->GetGroupMember(index);
 		if (pMember && pMember->GetPlayer())
 		{
 			char szTargetDist[EQ_MAX_NAME] = { 0 };
@@ -1316,7 +1316,7 @@ PLUGIN_API void OnReloadUI()
 
 PLUGIN_API void OnPulse()
 {
-	if (GetGameState() != GAMESTATE_INGAME || !pCharData)
+	if (GetGameState() != GAMESTATE_INGAME || !pLocalPC)
 		return;
 
 	static uint64_t lastPulseUpdate = MQGetTickCount64();
@@ -1339,7 +1339,7 @@ PLUGIN_API void OnPulse()
 				RemoveOurMenu(pGroupWnd);
 			}
 
-			if (pCharData->Group)
+			if (pLocalPC->Group)
 			{
 				if (gBShowDistance)
 				{
